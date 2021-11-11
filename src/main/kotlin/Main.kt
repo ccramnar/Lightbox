@@ -24,7 +24,7 @@ class Main : Application() {
         // setup and display
         root.children.addAll(toolbar, grid, status)
         stage?.scene = Scene(root)
-        stage?.isResizable = false
+        //stage?.isResizable = false
         stage?.width = 800.0
         stage?.height = 600.0
         stage?.title = "Lightbox ccramnar(20786590)"

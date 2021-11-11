@@ -20,7 +20,7 @@ class ToolbarView( gmodel: Model) : IView, ToolBar() {
         addButton.setOnMouseClicked {
             var file = f.showOpenDialog(Stage());
             var img  = Image(file.toURI().toString());
-            (model.images).add(img);
+            model.addImage(img);
             model.activateMode(selectedAction.ADD);
         }
         val addImageView = javafx.scene.image.ImageView((Image("add-image.jpg")))
@@ -110,7 +110,7 @@ class ToolbarView( gmodel: Model) : IView, ToolBar() {
     }
 
     fun updateButtons() {
-        if (model.imageSelected) {
+        if (model.imageSelected != null) {
             deleteButton.setDisable(false)
             rotateleftButton.setDisable(false)
             rotaterightButton.setDisable(false)
@@ -129,5 +129,9 @@ class ToolbarView( gmodel: Model) : IView, ToolBar() {
 
     override fun update() {
         updateButtons()
+    }
+
+    override fun addImageUpdate(image:Image) {
+
     }
 }

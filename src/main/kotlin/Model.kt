@@ -1,4 +1,5 @@
 import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 
 enum class selectedAction {
     ADD, DELETE, LEFT, RIGHT, ZOOM_IN, ZOOM_OUT, RESET, TILE, CASCADE, NO_ACTION
@@ -8,10 +9,12 @@ class Model {
     // represent my board
     private val sizeOuter = 80
     private val sizeInner = 75
+    public var action:selectedAction = selectedAction.NO_ACTION
 
     private val views = ArrayList<IView>()
     public var images = ArrayList<Image>()
-    var imageSelected:Boolean = false;
+    var imageSelected: ImageView? = null;
+    var imageCounter:Int = 0;
 
     init {
     }
@@ -31,9 +34,17 @@ class Model {
         }
     }
 
-    fun addImage() {
+    fun notifyAddView(image: Image) {
+        for (view in views) {
+            view.addImageUpdate(image)
+        }
+    }
+
+    fun addImage(image: Image) {
         println("Adding an image")
-        notifyView();
+        ++imageCounter;
+        this.images.add(image)
+        notifyAddView(image);
     }
 
     fun deleteImage() {
@@ -48,9 +59,10 @@ class Model {
     }
 
     fun activateMode(action: selectedAction) {
+        this.action = action;
         when(action) {
             selectedAction.ADD -> {
-                addImage()
+                //addImage(image)
             }
             selectedAction.DELETE -> {
                 deleteImage();
@@ -79,6 +91,7 @@ class Model {
             else -> println("NOT VALID");
 
         }
+        this.action = selectedAction.NO_ACTION;
 
     }
 }
