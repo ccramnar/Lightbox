@@ -58,6 +58,11 @@ class GridView(gmodel: Model) : IView, FlowPane() {
             imageView.setPreserveRatio(true);
              imageView.toFront()
             imageView.setOnMouseClicked {
+                if (model?.imageSelected != null) {
+                    model?.imageSelected?.clip = null;
+                    model?.imageSelected?.effect = null;
+                    model?.imageSelected = null
+                }
                 println("clicking the image")
                 val clip = Rectangle(
                     imageView.fitWidth, imageView.fitHeight
