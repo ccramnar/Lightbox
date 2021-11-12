@@ -132,6 +132,8 @@ class ToolbarView( gmodel: Model) : IView, ToolBar() {
     }
 
     override fun addImageUpdate(image:Image) {
+    }
 
+    override fun deleteImageUpdate() {
     }
 }

@@ -40,6 +40,12 @@ class Model {
         }
     }
 
+    fun notifyDeleteView() {
+        for (view in views) {
+            view.deleteImageUpdate()
+        }
+    }
+
     fun addImage(image: Image) {
         println("Adding an image")
         ++imageCounter;
@@ -49,7 +55,8 @@ class Model {
 
     fun deleteImage() {
         println("Deleting an image");
-        notifyView();
+        --imageCounter;
+        notifyDeleteView();
     }
 
     fun updateSelectedImage() {

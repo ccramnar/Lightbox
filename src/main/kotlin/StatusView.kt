@@ -31,4 +31,9 @@ class StatusView(gmodel: Model) : IView, HBox() {
         counterLabel.text = "Number of images: " + model.imageCounter;
         actionLabel.text = "Image has been added"
     }
+
+    override fun deleteImageUpdate() {
+        counterLabel.text = "Number of images: " + model.imageCounter;
+        actionLabel.text = "Image has been deleted"
+    }
 }

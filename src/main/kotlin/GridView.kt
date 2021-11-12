@@ -85,7 +85,11 @@ class GridView(gmodel: Model) : IView, ScrollPane() {
         println(imageView.x.toString() +"  " + imageView.y)
         println(imageView.layoutX.toString() +"  " + imageView.layoutY)
         println(imageView.x.toString() +"  " + imageView.y)
-        this.getChildren().add(imageView);
+        this.getChildren()?.add(imageView);
+    }
+
+    override fun deleteImageUpdate() {
+        this.getChildren()?.remove(model?.imageSelected);
     }
 
     override fun update() {
