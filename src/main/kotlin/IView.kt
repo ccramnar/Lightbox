@@ -4,4 +4,5 @@ interface IView {
     fun update()
     fun addImageUpdate(image:Image)
     fun deleteImageUpdate();
+
 }

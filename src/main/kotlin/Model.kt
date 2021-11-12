@@ -59,6 +59,34 @@ class Model {
         notifyDeleteView();
     }
 
+    fun rotateLeft() {
+        println("Rotating left" + imageSelected?.getRotate())
+        imageSelected?.setRotate(imageSelected?.getRotate()!!.minus(10) );
+
+    }
+
+    fun rotateRight() {
+        println("Rotating Right")
+        imageSelected?.setRotate(imageSelected?.getRotate()!!.plus(10) );
+
+    }
+
+    fun zoomIn() {
+        this.imageSelected?.scaleX = imageSelected?.scaleX!!.plus(0.25);
+        this.imageSelected?.scaleY = imageSelected?.scaleY!!.plus(0.25);
+    }
+
+    fun zoomOut() {
+        this.imageSelected?.scaleX = imageSelected?.scaleX!!.minus(0.25);
+        this.imageSelected?.scaleY = imageSelected?.scaleY!!.minus(0.25);
+    }
+
+    fun reset() {
+        this.imageSelected?.scaleX = 1.0;
+        this.imageSelected?.scaleY = 1.0;
+        imageSelected?.setRotate(0.0);
+    }
+
     fun updateSelectedImage() {
         println("Updating selected image")
 
@@ -75,19 +103,19 @@ class Model {
                 deleteImage();
             }
             selectedAction.LEFT -> {
-
+                rotateLeft();
             }
             selectedAction.RIGHT -> {
-
+                rotateRight();
             }
             selectedAction.ZOOM_IN -> {
-
+                zoomIn();
             }
             selectedAction.ZOOM_OUT -> {
-
+                zoomOut()
             }
             selectedAction.RESET -> {
-
+                reset()
             }
             selectedAction.CASCADE -> {
 
