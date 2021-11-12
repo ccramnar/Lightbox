@@ -19,11 +19,11 @@ class StatusView(gmodel: Model) : IView, HBox() {
     override fun update() {
         counterLabel.text = "Number of images: " + model.imageCounter;
         if (model.action == selectedAction.ADD) {
-            actionLabel.text = "Game has begun, No action has been performed"
+            actionLabel.text = "Image has been added"
         } else if (model.action == selectedAction.NO_ACTION) {
-            actionLabel.text = "Clear Action was performed"
-        } else {
-            actionLabel.text = (model.action).toString() + " pattern was added to the grid"
+            actionLabel.text = ""
+        } else if (model.action == selectedAction.DELETE) {
+            actionLabel.text = "Image has been deleted"
         }
     }
 

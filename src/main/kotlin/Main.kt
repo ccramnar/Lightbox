@@ -1,5 +1,6 @@
 import javafx.application.Application
 import javafx.scene.Scene
+import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
 
@@ -8,7 +9,7 @@ class Main : Application() {
         val model = Model()
 
         // our layout is the root of the scene graph
-        val root = VBox()
+        val root = BorderPane()
 
         // views are the children of the vbox
         val toolbar = ToolbarView( model)
@@ -22,7 +23,10 @@ class Main : Application() {
 
 
         // setup and display
-        root.children.addAll(toolbar, grid, status)
+        root.top = toolbar;
+        root.center = grid;
+        root.bottom = status;
+        //root.children.addAll(toolbar, grid, status)
         stage?.scene = Scene(root)
         //stage?.isResizable = false
         stage?.width = 800.0

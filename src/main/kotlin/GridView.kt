@@ -1,7 +1,9 @@
 import javafx.geometry.Insets
+import javafx.scene.control.ScrollPane
 import javafx.scene.effect.DropShadow
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.input.DragEvent
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
@@ -10,20 +12,29 @@ import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
 
 
-class GridView(gmodel: Model) : IView, FlowPane() {
+class GridView(gmodel: Model) : IView, ScrollPane() {
     private var model: Model? = gmodel;
+    public var pane: FlowPane? = FlowPane();
 
 
     init {
         this.padding = Insets(10.0, 10.0, 10.0, 10.0);
+        //this.hgap = 10.0;
+       // this.vgap = 10.0;
+        this.height = 700.0;
+        this.width = 500.0;
+        this.setPrefSize(595.0, 200.0);
+        pane!!.toBack()
+        pane!!.hgap = 10.0
+        pane!!.vgap = 10.0;
+        this.content = pane
         for (item in model?.images!!) {
-            this.getChildren().add(ImageView(item));
+            pane!!.getChildren().add(ImageView(item));
         }
         this.toBack()
-       this.setOnMouseClicked {
+       this.setOnMousePressed {
             println("clicking the grid")
             if (model?.imageSelected != null) {
-                model?.imageSelected?.clip = null;
                 model?.imageSelected?.effect = null;
                 model?.imageSelected = null
                 model?.notifyView();
@@ -33,48 +44,47 @@ class GridView(gmodel: Model) : IView, FlowPane() {
 
     }
 
-    fun handleKeyEvents(keyEvent: KeyEvent) {
-        if (keyEvent.code == KeyCode.P) {
-            println("Play pressed")
-            keyEvent.consume()
-            //model?.play()
+   fun imageClick(imageView: ImageView) {
+       imageView.toFront()
+       if (model?.imageSelected != null) {
+           model?.imageSelected?.effect = null;
+           model?.imageSelected = null
+       }
+       println("clicking the image")
+       imageView.effect = DropShadow(20.0, Color.BLACK)
+       model?.imageSelected = imageView
+       model?.notifyView();
+   }
+
+    fun imageDrag(imageView: ImageView, event: MouseEvent) {
+        imageView.toFront()
+        if (model?.imageSelected != null) {
+            model?.imageSelected?.effect = null;
+            model?.imageSelected = null
         }
-        if (keyEvent.code == KeyCode.S) {
-            println("Stop pressed")
-            keyEvent.consume()
-            //model?.pause()
-        }
-        if (keyEvent.code == KeyCode.F) {
-            println("Space pressed")
-            keyEvent.consume()
-            //model?.step()
-        }
+        model?.imageSelected = imageView
+        imageView.x = event.x
+        imageView.y = event.y
+        println(event)
     }
 
     override fun addImageUpdate(item: Image) {
             var imageView = ImageView(item);
-            imageView.setFitHeight(100.0);
-            imageView.setFitWidth(100.0);
+            imageView.setFitHeight(200.0);
+            imageView.setFitWidth(200.0);
             imageView.setPreserveRatio(true);
              imageView.toFront()
             imageView.setOnMouseClicked {
-                if (model?.imageSelected != null) {
-                    model?.imageSelected?.clip = null;
-                    model?.imageSelected?.effect = null;
-                    model?.imageSelected = null
-                }
-                println("clicking the image")
-                val clip = Rectangle(
-                    imageView.fitWidth, imageView.fitHeight
-                )
-                clip.arcWidth = 20.0
-                clip.arcHeight = 20.0
-                imageView.clip = clip
-                imageView.effect = DropShadow(20.0, Color.BLACK)
-                model?.imageSelected = imageView
-                model?.notifyView();
+                imageClick(imageView)
                 it.consume()
             }
+            imageView.setOnMouseDragged {event->
+                imageDrag(imageView, event)
+                event.consume()
+            }
+        println(imageView.x.toString() +"  " + imageView.y)
+        println(imageView.layoutX.toString() +"  " + imageView.layoutY)
+        println(imageView.x.toString() +"  " + imageView.y)
         this.getChildren().add(imageView);
     }
 
